@@ -13,7 +13,7 @@ const StatsCard = ({ title, icon, content, isMoney }: StatsCardProps) => {
   return (
     <Card>
       <CardHeader className=" flex justify-between items-center">
-        <CardTitle className="font-medium">{title}</CardTitle>
+        <CardTitle className="font-medium text-sm truncate">{title}</CardTitle>
         <Icon className="w-4 h-4" />
       </CardHeader>
       <CardContent className="text-2xl font-bold mt-[-8px]">
