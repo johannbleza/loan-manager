@@ -1,7 +1,13 @@
 import React from "react";
 
 const AgentsPage = () => {
-  return <div>AgentsPage</div>;
+  return (
+    <main className="mx-auto lg:container p-6">
+      <section>
+        <h1>Agents</h1>
+      </section>
+    </main>
+  );
 };
 
 export default AgentsPage;
