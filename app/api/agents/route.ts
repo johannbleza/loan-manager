@@ -1,6 +1,20 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
+// Get All Agent
+export async function GET() {
+  try {
+    const agents = await prisma.agent.findMany();
+    return NextResponse.json(agents, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to fetch agents" },
+      { status: 500 }
+    );
+  }
+}
+
+// Add New Agent
 export async function POST(request: Request) {
   try {
     const { name, email, phone } = await request.json();
