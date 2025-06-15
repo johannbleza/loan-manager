@@ -47,7 +47,6 @@ const NewAgentPage = () => {
       if (res.ok) {
         router.push("/agents");
       } else {
-        // handle error (optional: show error message)
         alert("Failed to add agent");
       }
     } catch (error) {
