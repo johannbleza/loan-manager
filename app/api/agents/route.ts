@@ -11,7 +11,7 @@ export async function POST(request: Request) {
         phone: phone || null,
       },
     });
-    return NextResponse.json(agent, { status: 201 });
+    return NextResponse.json(agent, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to create agent" },

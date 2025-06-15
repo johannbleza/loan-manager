@@ -8,7 +8,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,11 +15,26 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const formSchema = z.object({
-  name: z.string().min(2, {
-    message: "Name is required. Must be at least 2 characters.",
-  }),
+  name: z
+    .string()
+    .min(2, {
+      message: "Name is required. Must be at least 2 characters.",
+    })
+    .refine(
+      async (name) => {
+        const res = await fetch("/api/agents/validate-name", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name }),
+        });
+        const data = await res.json();
+        return !data.exists;
+      },
+      { message: "Agent already exists!" }
+    ),
   email: z.string(),
   phone: z.string(),
 });
@@ -37,22 +51,23 @@ const NewAgentPage = () => {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const res = await fetch("/api/agents", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
       });
-      if (res.ok) {
-        router.push("/agents");
-      } else {
-        alert("Failed to add agent");
+      if (!res.ok) {
+        toast.error("Failed to add agent.");
+        return;
       }
-    } catch (error) {
-      alert("An error occurred");
+      router.push("/agents");
+      toast.success(`Agent: ${values.name} has been successfully added.`);
+    } catch {
+      alert("An unexpected error occurred");
     }
-  }
+  };
   return (
     <main className="container p-6 mx-auto flex flex-col gap-6 max-w-2xl">
       <h1 className="text-3xl font-bold">Add New Agent</h1>
