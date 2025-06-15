@@ -37,8 +37,22 @@ const NewAgentPage = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const res = await fetch("/api/agents", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+      if (res.ok) {
+        router.push("/agents");
+      } else {
+        // handle error (optional: show error message)
+        alert("Failed to add agent");
+      }
+    } catch (error) {
+      alert("An error occurred");
+    }
   }
   return (
     <main className="container p-6 mx-auto flex flex-col gap-6 max-w-2xl">
