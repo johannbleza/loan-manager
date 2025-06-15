@@ -19,17 +19,10 @@ import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   name: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
+    message: "Name is required. Must be at least 2 characters.",
   }),
-  email: z.string().min(2, {
-    message: "Email must be at least 2 characters.",
-  }),
-  phone: z.string().min(2, {
-    message: "Phone number must be at least 2 characters.",
-  }),
-  commission: z.string().min(1, {
-    message: "Commission Rate must be at least 1 characters.",
-  }),
+  email: z.string(),
+  phone: z.string(),
 });
 
 const NewAgentPage = () => {
@@ -41,7 +34,6 @@ const NewAgentPage = () => {
       name: "",
       email: "",
       phone: "",
-      commission: "",
     },
   });
 
@@ -69,7 +61,7 @@ const NewAgentPage = () => {
                     <FormItem>
                       <FormLabel>Name</FormLabel>
                       <FormControl>
-                        <Input {...field} />
+                        <Input {...field} placeholder="Required" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -82,7 +74,7 @@ const NewAgentPage = () => {
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input type="email" {...field} />
+                        <Input type="email" {...field} placeholder="Optional" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -95,25 +87,12 @@ const NewAgentPage = () => {
                     <FormItem>
                       <FormLabel>Phone</FormLabel>
                       <FormControl>
-                        <Input type="number" {...field} />
+                        <Input
+                          type="number"
+                          {...field}
+                          placeholder="Optional"
+                        />
                       </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="commission"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Commission Rate (%)</FormLabel>
-                      <FormControl>
-                        <Input type="number" {...field} />
-                      </FormControl>
-                      <FormDescription>
-                        Percentage of interest and fees the agent earns as
-                        commission.
-                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
