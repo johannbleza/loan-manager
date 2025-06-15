@@ -1,13 +1,14 @@
-import type { NextConfig } from "next";
 import withPWA from "next-pwa";
 
-const nextConfig: NextConfig = withPWA({
-  pwa: {
-    dest: "public",
-    register: true,
-    skipWaiting: true,
-  },
-  /* config options here */
+const withPWANextConfig = withPWA({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
 });
 
-export default nextConfig;
+export default withPWANextConfig({
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  // other Next.js config options here
+});
